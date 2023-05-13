@@ -13,7 +13,7 @@ import java.io.IOException;
 
 @Name("matrix-multiplication")
 @Group("matrix")
-@Summary("A dummy benchmark which only serves to test the harness.")
+@Summary("Benchmark executing matrix multiplication")
 @Licenses(License.MIT)
 @Configuration(name = "test")
 public final class MatrixMultiplication implements Benchmark {
@@ -30,7 +30,6 @@ public final class MatrixMultiplication implements Benchmark {
       for (int i = 0; i < iterations; i++) {
         result = result.multiplyWith(matrix);
       }
-      System.out.println(result);
 
       return Validators.simple("name", 0, 0, 0);
     } catch (IOException e) {
