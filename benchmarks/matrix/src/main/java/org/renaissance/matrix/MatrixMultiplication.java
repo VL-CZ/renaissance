@@ -3,7 +3,7 @@ package org.renaissance.matrix;
 import org.renaissance.Benchmark;
 import org.renaissance.BenchmarkContext;
 import org.renaissance.BenchmarkResult;
-import org.renaissance.BenchmarkResult.Validators;
+import org.renaissance.BenchmarkResult.Assert;
 import org.renaissance.matrix.SquareMatrix;
 import org.renaissance.License;
 
@@ -21,19 +21,24 @@ public final class MatrixMultiplication implements Benchmark {
   public BenchmarkResult run(BenchmarkContext c) {
 
     try {
-      String fileName = "benchmarks/matrix/src/main/resources/matrix.txt";
+      String resourcesFolder = "benchmarks/matrix/src/main/resources/";
+      String matrixFile = resourcesFolder + "matrix.txt";
+      String expectedResultFile = resourcesFolder + "expected_result.txt";
 
-      SquareMatrix matrix = SquareMatrix.loadFrom(fileName);
-      SquareMatrix result = SquareMatrix.loadFrom(fileName);
+      SquareMatrix matrix = SquareMatrix.loadFrom(matrixFile);
+      SquareMatrix result = SquareMatrix.loadFrom(matrixFile);
 
       int iterations = 10;
       for (int i = 0; i < iterations; i++) {
         result = result.multiplyWith(matrix);
       }
 
-      return Validators.simple("name", 0, 0, 0);
+      SquareMatrix expectedResult = SquareMatrix.loadFrom(expectedResultFile);
+
+      SquareMatrix resultCopy = result; // variables passed to lambda need to be final or effectively final
+      return () -> Assert.assertEquals(expectedResult, resultCopy, "Matrix comparison");
     } catch (IOException e) {
-      return Validators.simple("name", 0, 1, 0);
+      throw new RuntimeException(e);
     }
   }
 }

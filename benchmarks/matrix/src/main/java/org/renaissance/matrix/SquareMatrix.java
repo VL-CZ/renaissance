@@ -1,6 +1,5 @@
 package org.renaissance.matrix;
 
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -37,6 +36,7 @@ public class SquareMatrix {
 
     /**
      * Multiply this matrix with another one and return the result
+     * 
      * @param other
      * @return
      */
@@ -73,9 +73,26 @@ public class SquareMatrix {
         return sb.toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        SquareMatrix that = (SquareMatrix) o;
+        return Arrays.deepEquals(data, that.data);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.deepHashCode(data);
+    }
+
     /**
      * Load matrix data from the given file
-     * @param fileName file contaning matrix data (values in a row are separated by spaces)
+     * 
+     * @param fileName file contaning matrix data (values in a row are separated by
+     *                 spaces)
      * @return
      * @throws IOException
      */
